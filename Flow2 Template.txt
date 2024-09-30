@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sidebar with Dropdown Arrow Icons</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        .sidebar {
+            position: fixed;
+            width: 150px;
+            height: 90%;
+            top: 45px;
+            left: -2px;
+            background-color: #00508a;
+            padding-top: 20px;
+            color: white;
+        }
+
+        .module-button {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            background-color: #00508a;
+            color: white;
+            padding-left: 15px;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            border-bottom: 0.2px solid black;
+            position: relative;
+            font-style: Roboto Mono;
+        }
+
+        .module-button:hover {
+            background-color: #005fa3;
+        }
+
+        .submodule-container {
+            display: none;
+            background-color: #00508a;
+        }
+
+        .submodule-button {
+            width: 100%;
+            background-color: #00508a;
+            color: white;
+            padding-left: 32px;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            font-weight: 600;
+            border: none;
+            outline: none;
+            font-size: 12px;
+            margin-bottom: 0px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .submodule-button:hover {
+            background-color: #005fa3;
+        }
+
+        .fa-house {
+            font-size: 11px;
+            padding-right: 7px;
+            margin-top: -2px;
+        }
+
+        .fa-building {
+            font-size: 11px;
+            padding-right: 10px;
+        }
+
+        .fa-triangle-exclamation {
+            font-size: 11px;
+            padding-right: 7px;
+        }
+
+        .fa-gear {
+            font-size: 11px;
+            padding-right: 7px;
+        }
+
+        .fa-file {
+            font-size: 11px;
+            padding-right: 7px;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    <div class="sidebar">
+
+        <button id="home" class="module-button" onclick="toggleSubmodules('homeSubmodules', this)"><i class="fa-solid fa-house"></i> Home</button>
+        <div id="homeSubmodules" class="submodule-container"></div>
+
+        <button id="departments" class="module-button" onclick="toggleSubmodules('departmentsSubmodules', this)"><i class="fa-solid fa-building"></i> Departments</button>
+        <div id="departmentsSubmodules" class="submodule-container"></div>
+
+        <button id="alarms" class="module-button" onclick="toggleSubmodules('alarmsSubmodules', this)"><i class="fa-solid fa-triangle-exclamation"></i> Alarms</button>
+        <div id="alarmsSubmodules" class="submodule-container"></div>
+
+        <button id="settings" class="module-button" onclick="toggleSubmodules('settingsSubmodules', this)"><i class="fa-solid fa-gear"></i> Settings</button>
+        <div id="settingsSubmodules" class="submodule-container"></div>
+
+        <button id="reports" class="module-button" onclick="toggleSubmodules('reportsSubmodules', this)"><i class="fa-solid fa-file"></i> Analytics</button>
+        <div id="reportsSubmodules" class="submodule-container"></div>
+    </div>
+
+    <script>
+        function toggleSubmodules(submoduleId, buttonElement) {
+            var dropdowns = document.querySelectorAll('.submodule-container');
+
+            dropdowns.forEach(function(dropdown) {
+                if (dropdown.id !== submoduleId) {
+                    dropdown.style.display = 'none';
+                    var btn = dropdown.previousElementSibling;
+                    if (btn) {
+                        btn.classList.remove('active');
+                    }
+                }
+            });
+
+            var submoduleContainer = document.getElementById(submoduleId);
+            if (submoduleContainer.style.display === 'block') {
+                submoduleContainer.style.display = 'none';
+                buttonElement.classList.remove('active');
+            } else {
+                submoduleContainer.style.display = 'block';
+                buttonElement.classList.add('active');
+            }
+
+            if (!submoduleContainer.hasChildNodes()) {
+                var submodules;
+                switch (submoduleId) {
+
+                    case 'departmentsSubmodules':
+                        submodules = ['Cards', 'Knitting', 'Preparatory', 'Spinning 1', 'Spinning 2', 'Winding', 'Spinning 1 Unit-2', 'Spinning 2 Unit-2', 'Winding Unit-2'];
+                        break;
+                    
+                    case 'alarmsSubmodules':
+                        submodules = ['High Temperature', 'Low Pressure', 'System Error'];
+                        break;
+                    case 'settingsSubmodules':
+                        submodules = [
+                            'Set Point', 'Digital Input', 'Digital Output', 'Analog Input',
+                            'Analog Output', 'Preset Values', 'Timer', 'Controllers',
+                            'UPSS', 'Pump Min Set'
+                        ];
+                        break;
+                    case 'reportsSubmodules':
+                        submodules = ['Trends', 'Report'];
+                        break;
+                    default:
+                        submodules = [];
+                }
+
+                submodules.forEach(function(submoduleName) {
+                    var btn = document.createElement('button');
+                    btn.className = 'submodule-button';
+                    btn.innerHTML = submoduleName;
+                    btn.onclick = function () {
+                        alert('Clicked on: ' + submoduleName);
+                    };
+                    submoduleContainer.appendChild(btn);
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title Bar</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .title-bar {
+            position: fixed;
+            height: 65px;
+            width: 99.6%;
+            background-color: #00508a;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            color: white;
+            box-sizing: border-box;
+            top: 0;
+            left: 0px;
+            right: 0px;
+        }
+
+        .left-section {
+            display: flex;
+            border-right: 0.5px solid black;
+            border-bottom: 0.5px solid black;
+            padding-right: 50px;
+            width: fit-content;
+        }
+
+        .left-section::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            border-bottom: 0.5px solid black;
+        }
+
+        .company-logo {
+            margin-top: 8px;
+            height: 47px;
+            width: 47px;
+            background: white;
+            margin-left: 30px;
+            border-radius: 50px;
+        }
+
+        .company-platform {
+            padding-top: 40px;
+            font-size: 11px;
+            margin-left: -29px;
+            font-weight: 500;
+            font-style: Roboto Mono;
+        }
+
+        .right-section {
+            font-size: 16px;
+            margin-right: -10px;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+
+</html>
+
+<body>
+    <div class="title-bar">
+        <div class="left-section">
+            <img src="http://localhost:1880/LOGO.png" alt="Company Logo" class="company-logo">
+        </div>
+        <div class="company-name"
+            style="position: absolute; top: 11px; font-size:30px; font-weight: bold; left: 520px;">
+            <span>TSE Control System</span>
+        </div>
+        <div class="right-section">
+            <span id="time"></span><br>
+            <span id="date"></span>
+        </div>
+    </div>
+    <script>
+        function updateTime() {
+            const now = new Date();
+
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit', 
+                hour12: true 
+            });
+
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); 
+            const year = now.getFullYear();
+            const weekday = now.toLocaleDateString('en-US', { weekday: 'long' });
+
+            document.getElementById('time').textContent = `Time : ${timeString}`;
+            document.getElementById('date').textContent = `Date : ${day}/${month}/${year}`;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+</body>
+
+<div id="spinning2Div"
+    style="transform: scale(0.8); left:50px; margin-top:30px; top: 200px; left:50px; width: 100%; height: 100%; display: none;">
+
+    <div
+        style="position: absolute; top: 15px; left: 130px; width: 1260px; height: 630px; border: 2px solid #C5C6D0; border-radius: 20px;">
+    </div>
+
+    <img src="http://localhost:1880/rdf00.gif" style="position:absolute; left:260px; top:220px; width:150px; height:120px;">
+    <img src="http://localhost:1880/redline00_x.png" style="position:absolute; left:195px; top:275px; width:80px; height:7px;">
+
+    <img src="http://localhost:1880/reddot0.png" style="position:absolute; left:367px; top:500px; width:20px; height:20px;">
+    <img src="http://localhost:1880/yellowdot0.jpg" style="position:absolute; left:346px; top:500px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;">
+    <img src="http://localhost:1880/sf00.gif" style="position:absolute; left:380px; top:518px; width:50px; height:50px; border-radius: 50px; border: 1px solid black;">
+    <img src="http://localhost:1880/greenline00_y.png" style="position:absolute; left:332px; top:319px; width:6px; height:220px;">
+    <img src="http://localhost:1880/greenline00_x.png" style="position:absolute; left:332px; top:539px; width:47px; height:6px;">
+    <img src="http://localhost:1880/icyclone000.jpg" style="position:absolute; left:502px; top:445px; width:80px; height:180px;">
+    <img src="http://localhost:1880/greenline00_x.png" style="position:absolute; left:432px; top:539px; width:70px; height:6px;">
+
+
+    <img src="http://localhost:1880/redline00_x.png" style="position:absolute; left:395px; top:305px; width:50px; height:6px;">
+    <!-- <img src="http://localhost:1880/redline00_y.png" style="position:absolute; left:444px; top:241px; width:6px; height:70px;">
+    <img src="http://localhost:1880/redline00_y.png" style="position:absolute; left:444px; top:311px; width:6px; height:70px;"> -->
+    <img src="http://localhost:1880/fan000.gif" style="position:absolute; left:511px; top:208px; width:42px; height:42px; border-radius: 60px; border: 2.5px solid black; padding:8PX;">
+    <img src="http://localhost:1880/fan000.gif" style="position:absolute; left:511px; top:320px; width:42px; height:42px; border-radius: 60px; border: 2.5px solid black; padding:8PX;">
+    <!-- <img src="http://localhost:1880/redline00_x.png" style="position:absolute; left:444px; top:237px; width:68px; height:6px;">
+    <img src="http://localhost:1880/redline00_x.png" style="position:absolute; left:444px; top:377px; width:68px; height:6px;">
+    <img src="http://localhost:1880/redline00_x.png" style="position:absolute; left:573px; top:237px; width:68px; height:6px;">
+    <img src="http://localhost:1880/redline00_x.png" style="position:absolute; left:573px; top:377px; width:68px; height:6px;">
+    <img src="http://localhost:1880/redline00_y.png" style="position:absolute; left:640px; top:237px; width:6px; height:76px;">
+    <img src="http://localhost:1880/redline00_y.png" style="position:absolute; left:640px; top:313px; width:6px; height:70px;"> -->
+    <img src="http://localhost:1880/redline00_x.png" style="position:absolute; left:440px; top:305px; width:415px; height:6px;">
+    <img src="http://localhost:1880/exhaust000.gif" style="position:absolute; left:657px; top:103px; width:45px; height:25px;">
+    <img src="http://localhost:1880/intake000.gif" style="position:absolute; left:795px; top:95px; width:35px; height:30px;">
+    <img src="http://localhost:1880/redline00_y.png" style="position:absolute; left:678px; top:129px; width:6px; height:175px;">
+    <img src="http://localhost:1880/greenline00_y.png" style="position:absolute; left:809px; top:130px; width:6px; height:176px;">
+    <img src="http://localhost:1880/airwasher000.png" style="position:absolute; left:923px; top:250px; width:270px; height:150px;">
+    <img src="http://localhost:1880/greenline00_x.png" style="position:absolute; left:809px; top:305px; width:151px; height:6px;">
+    <img src="http://localhost:1880/blueline00_x.png" style="position:absolute; left:1194px; top:295px; width:108px; height:6px;">
+    <img src="http://localhost:1880/fan000.gif" style="position:absolute; left:1273px; top:391px; width:43px; height:43px; border-radius: 60px; border: 2.5px solid black; padding:8PX;">
+    <img src="http://localhost:1880/blueline00_y.png" style="position:absolute; left:1302px; top:295px; width:6px; height:97px;">
+    <img src="http://localhost:1880/blueline00_y.png" style="position:absolute; left:1302px; top:454px; width:6px; height:85px;">
+    <img src="http://localhost:1880/blueline00_y.png" style="position:absolute; left:1253px; top:238px; width:6px; height:63px;">
+
+    <img src="http://localhost:1880/recirculation00.gif" style="position:absolute; left:715px; top:266px; width:78px; height:85px;">
+    <img src="http://localhost:1880/circleline000_x.png" style="position:absolute; left:782px; top:130px; width:60px; height:27px; border: 1px solid black; padding: -2px;"">
+    <img src="http://localhost:1880/circleline000_x.png" style="position:absolute; left:652px; top:128px; width:60px; height:27px; border: 1px solid black; padding: -2px;"">
+    <img src="http://localhost:1880/circleline000_y.png" style="position:absolute; left:739.5px; top:286px; width:27px; height:44px; border: 1px solid black; padding: -2px;">
+
+    <p style="position:absolute; left:315px; top:215px; color:black;"><b>RDF</b></p>
+    <p style="position:absolute; left:529px; top:181px; color:black;"><b>Fan</b></p>
+    <p style="position:absolute; left:529px; top:380px; color:black;"><b>Fan</b></p>
+    <p style="position:absolute; left:400px; top:566px; color:black;"><b>SF</b></p>
+    <p style="position:absolute; left:530px; top:622px; color:black;"><b>Cyclone</b></p>
+    <p style="position:absolute; left:1240px; top:412px; color:black;"><b>Fan</b></p>
+
+    <div style="position:absolute; left:1100px; top:30px; color:#00508a; font-size:30px;"><b><u>Spinning-2</u></b></div>
+    <p style="position:absolute; left:657px; top:68px; color:black;"><b>Exhaust</b></p>
+    <p style="position:absolute; left:765px; top:65px; color:black;"><b>Fresh Intake</b></p>
+    <p style="position:absolute; left:701px; top:235px; color:black;"><b>Recirculation</b></p>
+    <p style="position:absolute; left:970px; top:399px; color:black;"><b>Air Washer</b></p>
+
+    <img src="http://localhost:1880/redarrow00_r.png" style="position:absolute; left:228px; top:269px; width:18px; height:19px;">
+    <img src="http://localhost:1880/redarrow00_r.png" style="position:absolute; left:450px; top:299.5px; width:16px; height:17px;">
+    <!-- <img src="http://localhost:1880/redarrow00_r.png" style="position:absolute; left:472px; top:232px; width:16px; height:17px;">
+    <img src="http://localhost:1880/redarrow00_r.png" style="position:absolute; left:603px; top:232px; width:16px; height:17px;">
+    <img src="http://localhost:1880/redarrow00_r.png" style="position:absolute; left:472px; top:372px; width:16px; height:17px;">
+    <img src="http://localhost:1880/redarrow00_r.png" style="position:absolute; left:603px; top:372px; width:16px; height:17px;"> -->
+    <img src="http://localhost:1880/redarrow00_r.png" style="position:absolute; left:610px; top:299.5px; width:16px; height:17px;">
+    <img src="http://localhost:1880/redarrow00_r.png" style="position:absolute; left:695px; top:299.5px; width:16px; height:17px;">
+    <img src="http://localhost:1880/greenarrow00_r.png" style="position:absolute; left:855px; top:299.5px; width:16px; height:17px;">
+    <img src="http://localhost:1880/greenarrow00_b.png" style="position:absolute; left:327px; top:425px; width:16px; height:17px;">
+    <img src="http://localhost:1880/greenarrow00_r.png" style="position:absolute; left:458px; top:534px; width:16px; height:17px;">
+    <img src="http://localhost:1880/bluearrow00_b.png" style="position:absolute; left:1297px; top:340px; width:16px; height:17px;">
+    <img src="http://localhost:1880/bluearrow00_b.png" style="position:absolute; left:1297px; top:480px; width:16px; height:17px;">
+
+    <img src="http://localhost:1880/reddot0.png" style="position:absolute; left:355px; top:332px; width:20px; height:20px;">
+    <img src="http://localhost:1880/yellowdot0.jpg" style="position:absolute; left:376px; top:332px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;">
+    <img src="http://localhost:1880/reddot0.png" style="position:absolute; left:595px; top:445px; width:20px; height:20px;">
+    <img src="http://localhost:1880/yellowdot0.jpg" style="position:absolute; left:616px; top:445px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;">
+    <img src="http://localhost:1880/reddot0.png" style="position:absolute; left:580px; top:333px; width:20px; height:20px;">
+    <img src="http://localhost:1880/yellowdot0.jpg" style="position:absolute; left:601px; top:333px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;">
+    <img src="http://localhost:1880/greendot0.png" style="position:absolute; left:578px; top:190px; width:20px; height:20px;">
+    <img src="http://localhost:1880/yellowdot0.jpg" style="position:absolute; left:599px; top:190px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;">
+    <img src="http://localhost:1880/reddot0.png" style="position:absolute; left:1087px; top:357px; width:20px; height:20px;">
+    <img src="http://localhost:1880/yellowdot0.jpg" style="position:absolute; left:1108px; top:357px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;">
+    <img src="http://localhost:1880/reddot0.png" style="position:absolute; left:1335px; top:450px; width:20px; height:20px;">
+    <img src="http://localhost:1880/yellowdot0.jpg" style="position:absolute; left:1356px; top:450px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;">
+
+    <div
+        style="position:absolute; left:1215px; top:526px; border:3px solid skyblue; width:150px; height:90px; border-radius:7px">
+    </div>
+
+    <div
+        style="position:absolute; left:362px; top:235px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px">
+        <span>{{msg.payload.Counter}}</span> Pa
+    </div>
+
+    <div
+        style="position:absolute; left:500px; top:280px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px">
+        <span>{{msg.payload.Random}}</span> %
+    </div>
+
+    <div
+        style="position:absolute; left:1140px; top:355px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px">
+        <span>{{msg.payload.Sawtooth}}</span> %
+    </div>
+
+    <div
+        style="position:absolute; left:1205px; top:215px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px">
+        <span>{{msg.payload.Sinusoid}}</span> °C
+    </div>
+
+    <div
+        style="position:absolute; left:1220px; top:475px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px">
+        <span>{{msg.payload.Square}}</span> %
+    </div>
+
+    <div
+        style="position:absolute; left:1282px; top:539px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px">
+        <span>{{msg.payload.Triangle}}</span>
+    </div>
+
+    <div
+        style="position:absolute; left:1282px; top:583px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px">
+        <span>{{msg.payload.Random}}</span>
+    </div>
+
+    <p style="position:absolute; left:1224px; top:533px;"><b>%R.H</b></p>
+    <p style="position:absolute; left:1238px; top:580px;"><b>°C</b></p>
+
+</div>
+
+
+<div id="spinning1Div"
+    style="transform: scale(0.9); margin-left: 140px; margin-top: 100px; top:150px; left:400px; display: none;">
+    <img src="http://localhost:1880/spinning200.png" style="position:fixed; width: 1230px; height: 600px;">
+</div>
+
+<!-- <div>
+    <iframe id="trendsIframe" src="http://localhost:3000/dashboards"
+        style="display: none;"></iframe>
+</div> -->
+
+<div>
+    <iframe id="reportIframe" src="http://127.0.0.1:5000"
+        style="position: fixed; top: 65px; left: 145px; width: 89%; height: 90%; border: none; display: none;"></iframe>
+</div>
+
+<div id="custominputdiv" style="display: none;">
+    <h2 style="position:absolute; top:180px; left:300px;">Spinning 2 :</h2>
+    <input id="customValueInput" type="number" value="{{msg.payload}}" style="position:absolute; top:190px; left:450px; width: 100px; height: 30px; background-color: white; color: black; border: 2px solid black; text-align: center; border-radius: 5px;" />
+    <button id="updateValueButton" style="position:absolute; top:194px; left:570px; width: 50px; height: 25px; background-color: red; font-size: 12px; color: white; border: none; border-radius: 5px; cursor: pointer;"><b>Update</b></button>
+</div>
+
+<script>
+    (function(scope) {
+            document.getElementById('updateValueButton').addEventListener('click', function() {
+                var value = document.getElementById('customValueInput').value;
+                if (value !== '') {
+                    scope.send({ payload: parseFloat(value), topic: "ns=3;i=1008;datatype=Double" });
+                }
+            });
+        })(scope);
+</script>
+
+<style>
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0, 0, 0);
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    var modal = document.getElementById("myModal");
+    var btn = document.querySelector('button.submodule-button[data-submodule="Set Point"]');
+    var span = document.getElementsByClassName("close")[0];
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+</script>
+
+<script>
+    function toggleSubmodules(submoduleContainerId) {
+    var container = document.getElementById(submoduleContainerId);
+    var isDisplayed = container.style.display === 'block';
+    document.querySelectorAll('.submodule-container').forEach(function (sub) {
+        sub.style.display = 'none';
+    });
+    container.style.display = isDisplayed ? 'none' : 'block';
+
+    if (!isDisplayed) {
+        var submodules;
+        switch (submoduleContainerId) {
+            case 'departmentsSubmodules':
+                submodules = ['Cards', 'Knitting', 'Preparatory', 'Spinning 1', 'Spinning 2', 'Winding', 'Spinning 1 Unit-2', 'Spinning 2 Unit-2', 'Winding Unit-2'];
+                break;
+            case 'settingsSubmodules':
+                submodules = [
+                    'Set Point', 'Digital Input', 'Digital Output', 'Analog Input',
+                    'Analog Output', 'Preset Values', 'Timer', 'Controllers',
+                    'UPSS', 'Pump Min Set'
+                ];
+                break;
+            case 'reportsSubmodules':
+                submodules = ['Trends', 'Report', 'Chart'];
+                break;
+        }
+        container.innerHTML = '';
+        submodules.forEach(function (submodule) {
+            var btn = document.createElement('button');
+            btn.className = 'submodule-button';
+            btn.dataset.submodule = submodule;
+            btn.innerHTML = submodule;
+            
+            btn.onclick = function () {
+                document.getElementById('spinning1Div').style.display = 'none';
+                document.getElementById('spinning2Div').style.display = 'none';
+                document.getElementById('custominputdiv').style.display = 'none';
+
+                // var iframe = document.getElementById('trendsIframe');
+                // iframe.style.display = 'none';
+
+                var iframe = document.getElementById('reportIframe');
+                iframe.style.display = 'none';
+
+                if (submodule === 'Spinning 1') {
+                    document.getElementById('spinning1Div').style.display = 'block';
+                    
+                } else if (submodule === 'Spinning 2') {
+                    document.getElementById('spinning2Div').style.display = 'block';
+
+                } 
+                // else if (submodule === 'Trends') {
+                // iframe.style.display = 'block';
+                // iframe.src = 'http://localhost:3000/dashboards';
+
+                else if (submodule === 'Trends') {
+                window.open('http://localhost:3000/dashboards', '_blank');
+                }
+                else if (submodule === 'Report') {
+                iframe.style.display = 'block';
+                iframe.src = 'http://127.0.0.1:5000';
+
+                } else if (submodule === 'Set Point') {
+                document.getElementById('custominputdiv').style.display = 'block';
+                }
+            };
+            container.appendChild(btn);
+        });
+    }
+}
+
+</script>

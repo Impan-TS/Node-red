@@ -1,0 +1,295 @@
+[
+    {
+        "id": "26f3b45d2ead1e40",
+        "type": "tab",
+        "label": "TB5",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "13a5d27e2ad67fd3",
+        "type": "inject",
+        "z": "26f3b45d2ead1e40",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 200,
+        "wires": [
+            [
+                "0edc7d292ee11f5a"
+            ]
+        ]
+    },
+    {
+        "id": "0edc7d292ee11f5a",
+        "type": "function",
+        "z": "26f3b45d2ead1e40",
+        "name": "function 37",
+        "func": "// msg1={};\n// msg2={};\n// msg3={};\n// msg4={};\n// msg5={};\n// msg6={};\n\n// msg1.topic=\"ns=3;i=1008;datatype=Double\";\n// msg2.topic=\"ns=3;i=1003;datatype=Double\";\n// msg3.topic=\"ns=3;i=1004;datatype=Double\";\n// msg4.topic=\"ns=3;i=1005;datatype=Double\";\n// msg5.topic=\"ns=3;i=1006;datatype=Double\";\n// msg6.topic=\"ns=3;i=1007;datatype=Double\";\n\n// return [msg1,msg2,msg3,msg4,msg5,msg6];\n\n\nmsg1 = { topic: \"ns=3;i=1008;datatype=Double\" };\nmsg2 = { topic: \"ns=3;i=1003;datatype=Double\" };\nmsg3 = { topic: \"ns=3;i=1004;datatype=Double\" };\nmsg4 = { topic: \"ns=3;i=1005;datatype=Double\" };\nmsg5 = { topic: \"ns=3;i=1006;datatype=Double\" };\nmsg6 = { topic: \"ns=3;i=1007;datatype=Double\" };\nreturn [msg1, msg2, msg3, msg4, msg5, msg6];\n",
+        "outputs": 6,
+        "timeout": 0,
+        "noerr": 6,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 200,
+        "wires": [
+            [
+                "7aeac56c75daeeea"
+            ],
+            [
+                "7aeac56c75daeeea"
+            ],
+            [
+                "7aeac56c75daeeea"
+            ],
+            [
+                "7aeac56c75daeeea"
+            ],
+            [
+                "7aeac56c75daeeea"
+            ],
+            [
+                "7aeac56c75daeeea"
+            ]
+        ]
+    },
+    {
+        "id": "855107ca989cbdbf",
+        "type": "function",
+        "z": "26f3b45d2ead1e40",
+        "name": "function 38",
+        "func": "// var previous = context.get(\"previous\") || {\n//     Counter: null,\n//     Random: null,\n//     Sawtooth: null,\n//     Sinusoid: null,\n//     Square: null,\n//     Triangle: null\n// };\n\n// var processedTopics = context.get(\"processedTopics\") || new Set();\n\n// // Function to round to 2 decimal places\n// function roundToTwo(value) {\n//     return Math.round(value * 100) / 100;\n// }\n\n// if (msg.topic == \"ns=3;i=1008\") {\n//     previous.Counter = roundToTwo(msg.payload);\n//     processedTopics.add(msg.topic);\n// }\n// if (msg.topic == \"ns=3;i=1003\") {\n//     previous.Random = roundToTwo(msg.payload);\n//     processedTopics.add(msg.topic);\n// }\n// if (msg.topic == \"ns=3;i=1004\") {\n//     previous.Sawtooth = roundToTwo(msg.payload);\n//     processedTopics.add(msg.topic);\n// }\n// if (msg.topic == \"ns=3;i=1005\") {\n//     previous.Sinusoid = roundToTwo(msg.payload);\n//     processedTopics.add(msg.topic);\n// }\n// if (msg.topic == \"ns=3;i=1006\") {\n//     previous.Square = roundToTwo(msg.payload);\n//     processedTopics.add(msg.topic);\n// }\n// if (msg.topic == \"ns=3;i=1007\") {\n//     previous.Triangle = roundToTwo(msg.payload);\n//     processedTopics.add(msg.topic);\n// }\n\n// context.set(\"previous\", previous);\n\n// // Set a delay of 100ms to allow all messages to be processed\n// // if (!context.get(\"timer\")) {\n// //     context.set(\"timer\", true);\n// //     setTimeout(function() {\n// //         node.send({ payload: previous });\n// //         context.set(\"timer\", false);\n// //     }, 100);\n// // }\n\n// // msg.payload = {\n// //   Counter: previous.Counter,\n// //   Random: previous.Random,\n// //   Sawtooth: previous.Sawtooth,\n// //   Sinusoid: previous.Sinusoid,\n// //   Square: previous.Square,\n// //   Triangle: previous.Triangle\n// // };\n// // return msg;\n\n// // Check if all topics have been processed\n// if (processedTopics.size === 6) {\n//     // Send the combined message\n//     node.send({ payload: previous });\n//     // Reset the processed topics for the next batch\n//     context.set(\"processedTopics\", new Set());\n// } else {\n//     // Update the set in the context\n//     context.set(\"processedTopics\", processedTopics);\n// }\n\n// // Prevent further processing of the message\n// return null;\n\nvar previous = context.get(\"previous\") || {\n    Counter: null,\n    Random: null,\n    Sawtooth: null,\n    Sinusoid: null,\n    Square: null,\n    Triangle: null\n};\n\nvar processedTopics = context.get(\"processedTopics\") || new Set();\n\nfunction roundToTwo(value) {\n    return Math.round(value * 100) / 100;\n}\n\nswitch (msg.topic) {\n    case \"ns=3;i=1008\":\n        previous.Counter = roundToTwo(msg.payload);\n        break;\n    case \"ns=3;i=1003\":\n        previous.Random = roundToTwo(msg.payload);\n        break;\n    case \"ns=3;i=1004\":\n        previous.Sawtooth = roundToTwo(msg.payload);\n        break;\n    case \"ns=3;i=1005\":\n        previous.Sinusoid = roundToTwo(msg.payload);\n        break;\n    case \"ns=3;i=1006\":\n        previous.Square = roundToTwo(msg.payload);\n        break;\n    case \"ns=3;i=1007\":\n        previous.Triangle = roundToTwo(msg.payload);\n        break;\n}\n\nprocessedTopics.add(msg.topic);\ncontext.set(\"previous\", previous);\ncontext.set(\"processedTopics\", processedTopics);\n\nif (processedTopics.size === 6) {\n    node.send({ payload: previous });\n    context.set(\"processedTopics\", new Set());\n}\n\nreturn null;\n",
+        "outputs": 6,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 200,
+        "wires": [
+            [
+                "b97c17bc725d3746"
+            ],
+            [
+                "b97c17bc725d3746"
+            ],
+            [
+                "b97c17bc725d3746"
+            ],
+            [
+                "b97c17bc725d3746"
+            ],
+            [
+                "b97c17bc725d3746"
+            ],
+            [
+                "b97c17bc725d3746"
+            ]
+        ]
+    },
+    {
+        "id": "7aeac56c75daeeea",
+        "type": "OpcUa-Client",
+        "z": "26f3b45d2ead1e40",
+        "endpoint": "4e4eadb3bf6acdfa",
+        "action": "read",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": 10,
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "name": "",
+        "x": 560,
+        "y": 200,
+        "wires": [
+            [
+                "855107ca989cbdbf"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "4ce90bf58a42db72",
+        "type": "ui_template",
+        "z": "26f3b45d2ead1e40",
+        "group": "fa8a5e7250602190",
+        "name": "Custom numeric",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<style>\n    .custom-numeric {\n        display: none;\n        visibility: hidden;\n        /* Ensure it doesn't occupy space */\n        height: 0;\n        width: 0;\n        margin: 0;\n        padding: 0;\n        border: none;\n    }\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 160,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a61cbc7af8874a45",
+        "type": "ui_numeric",
+        "z": "26f3b45d2ead1e40",
+        "name": "",
+        "label": "VAR-1",
+        "tooltip": "",
+        "group": "",
+        "order": 0,
+        "width": 6,
+        "height": 3,
+        "wrap": false,
+        "passthru": true,
+        "topic": "ns=3;i=1008;datatype=Double",
+        "topicType": "str",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "className": "custom-numeric",
+        "x": 350,
+        "y": 360,
+        "wires": [
+            [
+                "b97c17bc725d3746"
+            ]
+        ]
+    },
+    {
+        "id": "8d2ae9ce6bb9c4f5",
+        "type": "debug",
+        "z": "26f3b45d2ead1e40",
+        "name": "debug 24",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "7f323572bfdafc4d",
+        "type": "OpcUa-Client",
+        "z": "26f3b45d2ead1e40",
+        "endpoint": "4e4eadb3bf6acdfa",
+        "action": "write",
+        "deadbandtype": "a",
+        "deadbandvalue": 1,
+        "time": 10,
+        "timeUnit": "s",
+        "certificate": "n",
+        "localfile": "",
+        "localkeyfile": "",
+        "securitymode": "None",
+        "securitypolicy": "None",
+        "useTransport": false,
+        "maxChunkCount": 1,
+        "maxMessageSize": 8192,
+        "receiveBufferSize": 8192,
+        "sendBufferSize": 8192,
+        "name": "",
+        "x": 800,
+        "y": 360,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "b97c17bc725d3746",
+        "type": "ui_template",
+        "z": "26f3b45d2ead1e40",
+        "group": "fa8a5e7250602190",
+        "name": "",
+        "order": 1,
+        "width": "25",
+        "height": "12",
+        "format": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <title>Sidebar with Dropdown Arrow Icons</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: Arial, sans-serif;\n        }\n\n        html,\n        body {\n            height: 100%;\n        }\n\n        .sidebar {\n            position: fixed;\n            width: 150px;\n            height: 90%;\n            top: 45px;\n            left: -2px;\n            background-color: #00508a;\n            padding-top: 20px;\n            color: white;\n        }\n\n        .module-button {\n            display: flex;\n            align-items: center;\n            width: 100%;\n            background-color: #00508a;\n            color: white;\n            padding-left: 15px;\n            padding-top: 12px;\n            padding-bottom: 12px;\n            text-align: left;\n            border: none;\n            outline: none;\n            cursor: pointer;\n            font-size: 12px;\n            font-weight: bold;\n            transition: background-color 0.3s ease;\n            border-bottom: 0.2px solid black;\n            position: relative;\n            font-style: Roboto Mono;\n        }\n\n        .module-button:hover {\n            background-color: #005fa3;\n        }\n\n        .submodule-container {\n            display: none;\n            background-color: #00508a;\n        }\n\n        .submodule-button {\n            width: 100%;\n            background-color: #00508a;\n            color: white;\n            padding-left: 32px;\n            padding-bottom: 10px;\n            padding-top: 10px;\n            font-weight: 600;\n            border: none;\n            outline: none;\n            font-size: 12px;\n            margin-bottom: 0px;\n            text-align: left;\n            cursor: pointer;\n        }\n\n        .submodule-button:hover {\n            background-color: #005fa3;\n        }\n\n        .fa-house {\n            font-size: 11px;\n            padding-right: 7px;\n            margin-top: -2px;\n        }\n\n        .fa-building {\n            font-size: 11px;\n            padding-right: 10px;\n        }\n\n        .fa-triangle-exclamation {\n            font-size: 11px;\n            padding-right: 7px;\n        }\n\n        .fa-gear {\n            font-size: 11px;\n            padding-right: 7px;\n        }\n\n        .fa-file {\n            font-size: 11px;\n            padding-right: 7px;\n        }\n    </style>\n\n    <link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css\"\n        integrity=\"sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==\"\n        crossorigin=\"anonymous\" referrerpolicy=\"no-referrer\" />\n</head>\n\n<body>\n    <div class=\"sidebar\">\n\n        <button id=\"home\" class=\"module-button\" onclick=\"toggleSubmodules('homeSubmodules', this)\"><i class=\"fa-solid fa-house\"></i> Home</button>\n        <div id=\"homeSubmodules\" class=\"submodule-container\"></div>\n\n        <button id=\"departments\" class=\"module-button\" onclick=\"toggleSubmodules('departmentsSubmodules', this)\"><i class=\"fa-solid fa-building\"></i> Departments</button>\n        <div id=\"departmentsSubmodules\" class=\"submodule-container\"></div>\n\n        <button id=\"alarms\" class=\"module-button\" onclick=\"toggleSubmodules('alarmsSubmodules', this)\"><i class=\"fa-solid fa-triangle-exclamation\"></i> Alarms</button>\n        <div id=\"alarmsSubmodules\" class=\"submodule-container\"></div>\n\n        <button id=\"settings\" class=\"module-button\" onclick=\"toggleSubmodules('settingsSubmodules', this)\"><i class=\"fa-solid fa-gear\"></i> Settings</button>\n        <div id=\"settingsSubmodules\" class=\"submodule-container\"></div>\n\n        <button id=\"reports\" class=\"module-button\" onclick=\"toggleSubmodules('reportsSubmodules', this)\"><i class=\"fa-solid fa-file\"></i> Analytics</button>\n        <div id=\"reportsSubmodules\" class=\"submodule-container\"></div>\n    </div>\n\n    <script>\n        function toggleSubmodules(submoduleId, buttonElement) {\n            var dropdowns = document.querySelectorAll('.submodule-container');\n\n            dropdowns.forEach(function(dropdown) {\n                if (dropdown.id !== submoduleId) {\n                    dropdown.style.display = 'none';\n                    var btn = dropdown.previousElementSibling;\n                    if (btn) {\n                        btn.classList.remove('active');\n                    }\n                }\n            });\n\n            var submoduleContainer = document.getElementById(submoduleId);\n            if (submoduleContainer.style.display === 'block') {\n                submoduleContainer.style.display = 'none';\n                buttonElement.classList.remove('active');\n            } else {\n                submoduleContainer.style.display = 'block';\n                buttonElement.classList.add('active');\n            }\n\n            if (!submoduleContainer.hasChildNodes()) {\n                var submodules;\n                switch (submoduleId) {\n\n                    case 'departmentsSubmodules':\n                        submodules = ['Cards', 'Knitting', 'Preparatory', 'Spinning 1', 'Spinning 2', 'Winding', 'Spinning 1 Unit-2', 'Spinning 2 Unit-2', 'Winding Unit-2'];\n                        break;\n                    \n                    case 'alarmsSubmodules':\n                        submodules = ['High Temperature', 'Low Pressure', 'System Error'];\n                        break;\n                    case 'settingsSubmodules':\n                        submodules = [\n                            'Set Point', 'Digital Input', 'Digital Output', 'Analog Input',\n                            'Analog Output', 'Preset Values', 'Timer', 'Controllers',\n                            'UPSS', 'Pump Min Set'\n                        ];\n                        break;\n                    case 'reportsSubmodules':\n                        submodules = ['Trends', 'Report'];\n                        break;\n                    default:\n                        submodules = [];\n                }\n\n                submodules.forEach(function(submoduleName) {\n                    var btn = document.createElement('button');\n                    btn.className = 'submodule-button';\n                    btn.innerHTML = submoduleName;\n                    btn.onclick = function () {\n                        alert('Clicked on: ' + submoduleName);\n                    };\n                    submoduleContainer.appendChild(btn);\n                });\n            }\n        }\n    </script>\n</body>\n\n</html>\n\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Title Bar</title>\n    <style>\n        body {\n            margin: 0;\n            padding: 0;\n            font-family: Arial, sans-serif;\n            box-sizing: border-box;\n        }\n\n        .title-bar {\n            position: fixed;\n            height: 65px;\n            width: 99.6%;\n            background-color: #00508a;\n            display: flex;\n            justify-content: space-between;\n            padding: 0 20px;\n            color: white;\n            box-sizing: border-box;\n            top: 0;\n            left: 0px;\n            right: 0px;\n        }\n\n        .left-section {\n            display: flex;\n            border-right: 0.5px solid black;\n            border-bottom: 0.5px solid black;\n            padding-right: 50px;\n            width: fit-content;\n        }\n\n        .left-section::after {\n            content: \"\";\n            position: absolute;\n            left: 0;\n            bottom: 0;\n            width: 50px;\n            border-bottom: 0.5px solid black;\n        }\n\n        .company-logo {\n            margin-top: 8px;\n            height: 47px;\n            width: 47px;\n            background: white;\n            margin-left: 30px;\n            border-radius: 50px;\n        }\n\n        .company-platform {\n            padding-top: 40px;\n            font-size: 11px;\n            margin-left: -29px;\n            font-weight: 500;\n            font-style: Roboto Mono;\n        }\n\n        .right-section {\n            font-size: 16px;\n            margin-right: -10px;\n            padding-top: 10px;\n        }\n    </style>\n</head>\n\n</html>\n\n<body>\n    <div class=\"title-bar\">\n        <div class=\"left-section\">\n            <img src=\"http://localhost:1880/LOGO.png\" alt=\"Company Logo\" class=\"company-logo\">\n        </div>\n        <div class=\"company-name\"\n            style=\"position: absolute; top: 11px; font-size:30px; font-weight: bold; left: 520px;\">\n            <span>TSE Control System</span>\n        </div>\n        <div class=\"right-section\">\n            <span id=\"time\"></span><br>\n            <span id=\"date\"></span>\n        </div>\n    </div>\n    <script>\n        function updateTime() {\n            const now = new Date();\n\n            const timeString = now.toLocaleTimeString('en-US', { \n                hour: '2-digit', \n                minute: '2-digit', \n                second: '2-digit', \n                hour12: true \n            });\n\n            const day = String(now.getDate()).padStart(2, '0');\n            const month = String(now.getMonth() + 1).padStart(2, '0'); \n            const year = now.getFullYear();\n            const weekday = now.toLocaleDateString('en-US', { weekday: 'long' });\n\n            document.getElementById('time').textContent = `Time : ${timeString}`;\n            document.getElementById('date').textContent = `Date : ${day}/${month}/${year}`;\n        }\n\n        setInterval(updateTime, 1000);\n        updateTime();\n    </script>\n</body>\n\n<div id=\"spinning2Div\"\n    style=\"transform: scale(0.9); left:100px; margin-top:30px; top: 200px; left:100px; width: 100%; height: 100%; display: none;\">\n\n    <div\n        style=\"position: absolute; top: 15px; left: 130px; width: 1260px; height: 630px; border: 2px solid #C5C6D0; border-radius: 20px;\">\n    </div>\n\n    <img src=\"http://localhost:1880/rdf00.gif\" style=\"position:absolute; left:260px; top:220px; width:150px; height:120px;\">\n    <img src=\"http://localhost:1880/redline00_x.png\" style=\"position:absolute; left:195px; top:275px; width:80px; height:7px;\">\n\n    <img src=\"http://localhost:1880/reddot0.png\" style=\"position:absolute; left:367px; top:500px; width:20px; height:20px;\">\n    <img src=\"http://localhost:1880/yellowdot0.jpg\" style=\"position:absolute; left:346px; top:500px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;\">\n    <img src=\"http://localhost:1880/sf00.gif\" style=\"position:absolute; left:380px; top:518px; width:50px; height:50px; border-radius: 50px; border: 1px solid black;\">\n    <img src=\"http://localhost:1880/greenline00_y.png\" style=\"position:absolute; left:332px; top:319px; width:6px; height:220px;\">\n    <img src=\"http://localhost:1880/greenline00_x.png\" style=\"position:absolute; left:332px; top:539px; width:47px; height:6px;\">\n    <img src=\"http://localhost:1880/icyclone000.jpg\" style=\"position:absolute; left:502px; top:445px; width:80px; height:180px;\">\n    <img src=\"http://localhost:1880/greenline00_x.png\" style=\"position:absolute; left:432px; top:539px; width:70px; height:6px;\">\n\n\n    <img src=\"http://localhost:1880/redline00_x.png\" style=\"position:absolute; left:395px; top:305px; width:50px; height:6px;\">\n    <!-- <img src=\"http://localhost:1880/redline00_y.png\" style=\"position:absolute; left:444px; top:241px; width:6px; height:70px;\">\n    <img src=\"http://localhost:1880/redline00_y.png\" style=\"position:absolute; left:444px; top:311px; width:6px; height:70px;\"> -->\n    <img src=\"http://localhost:1880/fan000.gif\" style=\"position:absolute; left:511px; top:208px; width:42px; height:42px; border-radius: 60px; border: 2.5px solid black; padding:8PX;\">\n    <img src=\"http://localhost:1880/fan000.gif\" style=\"position:absolute; left:511px; top:320px; width:42px; height:42px; border-radius: 60px; border: 2.5px solid black; padding:8PX;\">\n    <!-- <img src=\"http://localhost:1880/redline00_x.png\" style=\"position:absolute; left:444px; top:237px; width:68px; height:6px;\">\n    <img src=\"http://localhost:1880/redline00_x.png\" style=\"position:absolute; left:444px; top:377px; width:68px; height:6px;\">\n    <img src=\"http://localhost:1880/redline00_x.png\" style=\"position:absolute; left:573px; top:237px; width:68px; height:6px;\">\n    <img src=\"http://localhost:1880/redline00_x.png\" style=\"position:absolute; left:573px; top:377px; width:68px; height:6px;\">\n    <img src=\"http://localhost:1880/redline00_y.png\" style=\"position:absolute; left:640px; top:237px; width:6px; height:76px;\">\n    <img src=\"http://localhost:1880/redline00_y.png\" style=\"position:absolute; left:640px; top:313px; width:6px; height:70px;\"> -->\n    <img src=\"http://localhost:1880/redline00_x.png\" style=\"position:absolute; left:440px; top:305px; width:415px; height:6px;\">\n    <img src=\"http://localhost:1880/exhaust000.gif\" style=\"position:absolute; left:657px; top:103px; width:45px; height:25px;\">\n    <img src=\"http://localhost:1880/intake000.gif\" style=\"position:absolute; left:795px; top:95px; width:35px; height:30px;\">\n    <img src=\"http://localhost:1880/redline00_y.png\" style=\"position:absolute; left:678px; top:129px; width:6px; height:175px;\">\n    <img src=\"http://localhost:1880/greenline00_y.png\" style=\"position:absolute; left:809px; top:130px; width:6px; height:176px;\">\n    <img src=\"http://localhost:1880/airwasher000.png\" style=\"position:absolute; left:923px; top:250px; width:270px; height:150px;\">\n    <img src=\"http://localhost:1880/greenline00_x.png\" style=\"position:absolute; left:809px; top:305px; width:151px; height:6px;\">\n    <img src=\"http://localhost:1880/blueline00_x.png\" style=\"position:absolute; left:1194px; top:295px; width:108px; height:6px;\">\n    <img src=\"http://localhost:1880/fan000.gif\" style=\"position:absolute; left:1273px; top:391px; width:43px; height:43px; border-radius: 60px; border: 2.5px solid black; padding:8PX;\">\n    <img src=\"http://localhost:1880/blueline00_y.png\" style=\"position:absolute; left:1302px; top:295px; width:6px; height:97px;\">\n    <img src=\"http://localhost:1880/blueline00_y.png\" style=\"position:absolute; left:1302px; top:454px; width:6px; height:85px;\">\n    <img src=\"http://localhost:1880/blueline00_y.png\" style=\"position:absolute; left:1253px; top:238px; width:6px; height:63px;\">\n\n    <img src=\"http://localhost:1880/recirculation00.gif\" style=\"position:absolute; left:715px; top:266px; width:78px; height:85px;\">\n    <img src=\"http://localhost:1880/circleline000_x.png\" style=\"position:absolute; left:782px; top:130px; width:60px; height:27px; border: 1px solid black; padding: -2px;\"\">\n    <img src=\"http://localhost:1880/circleline000_x.png\" style=\"position:absolute; left:652px; top:128px; width:60px; height:27px; border: 1px solid black; padding: -2px;\"\">\n    <img src=\"http://localhost:1880/circleline000_y.png\" style=\"position:absolute; left:739.5px; top:286px; width:27px; height:44px; border: 1px solid black; padding: -2px;\">\n\n    <p style=\"position:absolute; left:315px; top:215px; color:black;\"><b>RDF</b></p>\n    <p style=\"position:absolute; left:529px; top:181px; color:black;\"><b>Fan</b></p>\n    <p style=\"position:absolute; left:529px; top:380px; color:black;\"><b>Fan</b></p>\n    <p style=\"position:absolute; left:400px; top:566px; color:black;\"><b>SF</b></p>\n    <p style=\"position:absolute; left:530px; top:622px; color:black;\"><b>Cyclone</b></p>\n    <p style=\"position:absolute; left:1240px; top:412px; color:black;\"><b>Fan</b></p>\n\n    <div style=\"position:absolute; left:1200px; top:30px; color:#00508a; font-size:30px;\"><b><u>Spinning-2</u></b></div>\n    <p style=\"position:absolute; left:657px; top:68px; color:black;\"><b>Exhaust</b></p>\n    <p style=\"position:absolute; left:765px; top:65px; color:black;\"><b>Fresh Intake</b></p>\n    <p style=\"position:absolute; left:701px; top:235px; color:black;\"><b>Recirculation</b></p>\n    <p style=\"position:absolute; left:970px; top:399px; color:black;\"><b>Air Washer</b></p>\n\n    <img src=\"http://localhost:1880/redarrow00_r.png\" style=\"position:absolute; left:228px; top:269px; width:18px; height:19px;\">\n    <img src=\"http://localhost:1880/redarrow00_r.png\" style=\"position:absolute; left:450px; top:299.5px; width:16px; height:17px;\">\n    <!-- <img src=\"http://localhost:1880/redarrow00_r.png\" style=\"position:absolute; left:472px; top:232px; width:16px; height:17px;\">\n    <img src=\"http://localhost:1880/redarrow00_r.png\" style=\"position:absolute; left:603px; top:232px; width:16px; height:17px;\">\n    <img src=\"http://localhost:1880/redarrow00_r.png\" style=\"position:absolute; left:472px; top:372px; width:16px; height:17px;\">\n    <img src=\"http://localhost:1880/redarrow00_r.png\" style=\"position:absolute; left:603px; top:372px; width:16px; height:17px;\"> -->\n    <img src=\"http://localhost:1880/redarrow00_r.png\" style=\"position:absolute; left:610px; top:299.5px; width:16px; height:17px;\">\n    <img src=\"http://localhost:1880/redarrow00_r.png\" style=\"position:absolute; left:695px; top:299.5px; width:16px; height:17px;\">\n    <img src=\"http://localhost:1880/greenarrow00_r.png\" style=\"position:absolute; left:855px; top:299.5px; width:16px; height:17px;\">\n    <img src=\"http://localhost:1880/greenarrow00_b.png\" style=\"position:absolute; left:327px; top:425px; width:16px; height:17px;\">\n    <img src=\"http://localhost:1880/greenarrow00_r.png\" style=\"position:absolute; left:458px; top:534px; width:16px; height:17px;\">\n    <img src=\"http://localhost:1880/bluearrow00_b.png\" style=\"position:absolute; left:1297px; top:340px; width:16px; height:17px;\">\n    <img src=\"http://localhost:1880/bluearrow00_b.png\" style=\"position:absolute; left:1297px; top:480px; width:16px; height:17px;\">\n\n    <img src=\"http://localhost:1880/reddot0.png\" style=\"position:absolute; left:355px; top:332px; width:20px; height:20px;\">\n    <img src=\"http://localhost:1880/yellowdot0.jpg\" style=\"position:absolute; left:376px; top:332px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;\">\n    <img src=\"http://localhost:1880/reddot0.png\" style=\"position:absolute; left:595px; top:445px; width:20px; height:20px;\">\n    <img src=\"http://localhost:1880/yellowdot0.jpg\" style=\"position:absolute; left:616px; top:445px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;\">\n    <img src=\"http://localhost:1880/reddot0.png\" style=\"position:absolute; left:580px; top:333px; width:20px; height:20px;\">\n    <img src=\"http://localhost:1880/yellowdot0.jpg\" style=\"position:absolute; left:601px; top:333px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;\">\n    <img src=\"http://localhost:1880/greendot0.png\" style=\"position:absolute; left:578px; top:190px; width:20px; height:20px;\">\n    <img src=\"http://localhost:1880/yellowdot0.jpg\" style=\"position:absolute; left:599px; top:190px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;\">\n    <img src=\"http://localhost:1880/reddot0.png\" style=\"position:absolute; left:1087px; top:357px; width:20px; height:20px;\">\n    <img src=\"http://localhost:1880/yellowdot0.jpg\" style=\"position:absolute; left:1108px; top:357px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;\">\n    <img src=\"http://localhost:1880/reddot0.png\" style=\"position:absolute; left:1335px; top:450px; width:20px; height:20px;\">\n    <img src=\"http://localhost:1880/yellowdot0.jpg\" style=\"position:absolute; left:1356px; top:450px; width:12.5px; height:12.5px; border: 1px solid rgba(0, 0, 0, 0.5); padding: 3px;\">\n\n    <div\n        style=\"position:absolute; left:1215px; top:526px; border:3px solid skyblue; width:150px; height:90px; border-radius:7px\">\n    </div>\n\n    <div\n        style=\"position:absolute; left:362px; top:235px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px\">\n        <span>{{msg.payload.Counter}}</span> Pa\n    </div>\n\n    <div\n        style=\"position:absolute; left:500px; top:280px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px\">\n        <span>{{msg.payload.Random}}</span> %\n    </div>\n\n    <div\n        style=\"position:absolute; left:1140px; top:355px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px\">\n        <span>{{msg.payload.Sawtooth}}</span> %\n    </div>\n\n    <div\n        style=\"position:absolute; left:1213px; top:215px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px\">\n        <span>{{msg.payload.Sinusoid}}</span> °C\n    </div>\n\n    <div\n        style=\"position:absolute; left:1220px; top:475px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px\">\n        <span>{{msg.payload.Square}}</span> %\n    </div>\n\n    <div\n        style=\"position:absolute; left:1282px; top:539px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px\">\n        <span>{{msg.payload.Triangle}}</span>\n    </div>\n\n    <div\n        style=\"position:absolute; left:1282px; top:583px; border:2px solid black; padding:0px 15px 0px 20px; border-radius:5px\">\n        <span>{{msg.payload.Random}}</span>\n    </div>\n\n    <p style=\"position:absolute; left:1224px; top:533px;\"><b>%R.H</b></p>\n    <p style=\"position:absolute; left:1238px; top:580px;\"><b>°C</b></p>\n\n</div>\n\n\n<div id=\"spinning1Div\"\n    style=\"transform: scale(0.9); margin-left: 140px; margin-top: 100px; top:150px; left:400px; display: none;\">\n    <img src=\"http://localhost:1880/spinning200.png\" style=\"position:fixed; width: 1230px; height: 600px;\">\n</div>\n\n<!-- <div>\n    <iframe id=\"trendsIframe\" src=\"http://localhost:3000/dashboards\"\n        style=\"display: none;\"></iframe>\n</div> -->\n\n<div>\n    <iframe id=\"reportIframe\" src=\"http://127.0.0.1:5000\"\n        style=\"position: fixed; top: 65px; left: 145px; width: 89%; height: 90%; border: none; display: none;\"></iframe>\n</div>\n\n<div id=\"custominputdiv\" style=\"display: none;\">\n    <h2 style=\"position:absolute; top:180px; left:300px;\">Spinning 2 :</h2>\n    <input id=\"customValueInput\" type=\"number\" value=\"{{msg.payload}}\" style=\"position:absolute; top:190px; left:450px; width: 100px; height: 30px; background-color: white; color: black; border: 2px solid black; text-align: center; border-radius: 5px;\" />\n    <button id=\"updateValueButton\" style=\"position:absolute; top:194px; left:570px; width: 50px; height: 25px; background-color: red; font-size: 12px; color: white; border: none; border-radius: 5px; cursor: pointer;\"><b>Update</b></button>\n</div>\n\n<script>\n    (function(scope) {\n            document.getElementById('updateValueButton').addEventListener('click', function() {\n                var value = document.getElementById('customValueInput').value;\n                if (value !== '') {\n                    scope.send({ payload: parseFloat(value), topic: \"ns=3;i=1008;datatype=Double\" });\n                }\n            });\n        })(scope);\n</script>\n\n<style>\n    .modal {\n        display: none;\n        position: fixed;\n        z-index: 1;\n        left: 0;\n        top: 0;\n        width: 100%;\n        height: 100%;\n        overflow: auto;\n        background-color: rgb(0, 0, 0);\n        background-color: rgba(0, 0, 0, 0.4);\n    }\n\n    .modal-content {\n        background-color: #fefefe;\n        margin: 15% auto;\n        padding: 20px;\n        border: 1px solid #888;\n        width: 80%;\n    }\n\n    .close {\n        color: #aaa;\n        float: right;\n        font-size: 28px;\n        font-weight: bold;\n    }\n\n    .close:hover,\n    .close:focus {\n        color: black;\n        text-decoration: none;\n        cursor: pointer;\n    }\n</style>\n\n<script>\n    var modal = document.getElementById(\"myModal\");\n    var btn = document.querySelector('button.submodule-button[data-submodule=\"Set Point\"]');\n    var span = document.getElementsByClassName(\"close\")[0];\n    btn.onclick = function() {\n        modal.style.display = \"block\";\n    }\n\n    span.onclick = function() {\n        modal.style.display = \"none\";\n    }\n\n    window.onclick = function(event) {\n        if (event.target == modal) {\n            modal.style.display = \"none\";\n        }\n    }\n\n</script>\n\n<script>\n    function toggleSubmodules(submoduleContainerId) {\n    var container = document.getElementById(submoduleContainerId);\n    var isDisplayed = container.style.display === 'block';\n    document.querySelectorAll('.submodule-container').forEach(function (sub) {\n        sub.style.display = 'none';\n    });\n    container.style.display = isDisplayed ? 'none' : 'block';\n\n    if (!isDisplayed) {\n        var submodules;\n        switch (submoduleContainerId) {\n            case 'departmentsSubmodules':\n                submodules = ['Cards', 'Knitting', 'Preparatory', 'Spinning 1', 'Spinning 2', 'Winding', 'Spinning 1 Unit-2', 'Spinning 2 Unit-2', 'Winding Unit-2'];\n                break;\n            case 'settingsSubmodules':\n                submodules = [\n                    'Set Point', 'Digital Input', 'Digital Output', 'Analog Input',\n                    'Analog Output', 'Preset Values', 'Timer', 'Controllers',\n                    'UPSS', 'Pump Min Set'\n                ];\n                break;\n            case 'reportsSubmodules':\n                submodules = ['Trends', 'Report', 'Chart'];\n                break;\n        }\n        container.innerHTML = '';\n        submodules.forEach(function (submodule) {\n            var btn = document.createElement('button');\n            btn.className = 'submodule-button';\n            btn.dataset.submodule = submodule;\n            btn.innerHTML = submodule;\n            \n            btn.onclick = function () {\n                document.getElementById('spinning1Div').style.display = 'none';\n                document.getElementById('spinning2Div').style.display = 'none';\n                document.getElementById('custominputdiv').style.display = 'none';\n\n                // var iframe = document.getElementById('trendsIframe');\n                // iframe.style.display = 'none';\n\n                var iframe = document.getElementById('reportIframe');\n                iframe.style.display = 'none';\n\n                if (submodule === 'Spinning 1') {\n                    document.getElementById('spinning1Div').style.display = 'block';\n                    \n                } else if (submodule === 'Spinning 2') {\n                    document.getElementById('spinning2Div').style.display = 'block';\n\n                } \n                // else if (submodule === 'Trends') {\n                // iframe.style.display = 'block';\n                // iframe.src = 'http://localhost:3000/dashboards';\n\n                else if (submodule === 'Trends') {\n                window.open('http://localhost:3000/dashboards', '_blank');\n                }\n                else if (submodule === 'Report') {\n                iframe.style.display = 'block';\n                iframe.src = 'http://127.0.0.1:5000';\n\n                } else if (submodule === 'Set Point') {\n                document.getElementById('custominputdiv').style.display = 'block';\n                }\n            };\n            container.appendChild(btn);\n        });\n    }\n}\n\n</script>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 560,
+        "y": 360,
+        "wires": [
+            [
+                "8d2ae9ce6bb9c4f5",
+                "7f323572bfdafc4d"
+            ]
+        ]
+    },
+    {
+        "id": "372d17da3af5a1ed",
+        "type": "ui_spacer",
+        "z": "26f3b45d2ead1e40",
+        "name": "spacer",
+        "group": "fa8a5e7250602190",
+        "order": 1,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "4e4eadb3bf6acdfa",
+        "type": "OpcUa-Endpoint",
+        "endpoint": "opc.tcp://DESKTOP-BSC7DMC:53530/OPCUA/SimulationServer",
+        "secpol": "None",
+        "secmode": "None",
+        "none": true,
+        "login": false,
+        "usercert": false,
+        "usercertificate": "",
+        "userprivatekey": ""
+    },
+    {
+        "id": "fa8a5e7250602190",
+        "type": "ui_group",
+        "name": "TSE Control System2",
+        "tab": "c791fd6490f02264",
+        "order": 1,
+        "disp": false,
+        "width": "25",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c791fd6490f02264",
+        "type": "ui_tab",
+        "name": "TSE Control System2",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
